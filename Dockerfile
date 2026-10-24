@@ -12,6 +12,11 @@ COPY . .
 ENV NEXT_TELEMETRY_DISABLED=1
 # 1 — показывать на странице входа кнопки демо-аккаунтов (значение встраивается при сборке).
 ARG NEXT_PUBLIC_SHOW_DEMO
+# Провайдер карт для браузера: публичный ключ Geoapify или свой стиль MapLibre. Next.js встраивает NEXT_PUBLIC_*
+# при сборке, а Docker передаёт в сборку только объявленные ARG — без этих строк ключ из переменных хостинга
+# (Railway и др.) не попадает в приложение, и карта остаётся на OpenStreetMap.
+ARG NEXT_PUBLIC_GEOAPIFY_KEY
+ARG NEXT_PUBLIC_MAP_STYLE_URL
 RUN npm run build
 
 FROM node:22-alpine AS runner
